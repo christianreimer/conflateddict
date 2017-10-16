@@ -1,4 +1,4 @@
-.PHONY: test clean 
+.PHONY: test clean install
 
 test: 
 	pytest --cov-report term-missing --cov=. --verbose tests/*
@@ -9,4 +9,5 @@ clean:
 	@find . -name .cache -type d -exec rm -rf {} +
 	@find . -name .coverage -delete
 
-
+install:
+	pip install -r requirements_test.txt
