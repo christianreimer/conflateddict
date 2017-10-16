@@ -7,9 +7,9 @@ import collections
 ohlc = collections.namedtuple('ohlc', 'open high low close')
 
 
-class Conflater(object):
+class Conflator(object):
     """
-    Simple Conflater returning dirty values
+    Simple Conflator returning dirty values
     """
     def __init__(self):
         self._data = {}
@@ -67,9 +67,9 @@ class Conflater(object):
         return self._data
 
 
-class OHLCConflator(Conflater):
+class OHLCConflator(Conflator):
     """
-    Conflater returning OHLC values
+    Conflator returning OHLC values
     """
     def __init__(self):
         super(OHLCConflator, self).__init__()
@@ -94,10 +94,10 @@ class OHLCConflator(Conflater):
         self._dirty.add(key)
 
 
-class MeanConflater(Conflater):
+class MeanConflator(Conflator):
     """
-    Conflater returning mean values
+    Conflator returning mean values
     """
     def __init__(self):
-        super(MeanConflater, self).__init__()  # pragma: no cover
+        super(MeanConflator, self).__init__()  # pragma: no cover
 
