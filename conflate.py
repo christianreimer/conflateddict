@@ -59,6 +59,8 @@ class Conflator(object):
         Resets the Conflator. After calling this there will be no dirty keys.
         """
         self._dirty = set()
+        if hasattr(self, 'additional_reset'):
+            self.additional_reset()
 
     def data(self):
         """
@@ -100,4 +102,38 @@ class MeanConflator(Conflator):
     """
     def __init__(self):
         super(MeanConflator, self).__init__()  # pragma: no cover
+        self._raw = {}
 
+    def __setitem__(self, key, data):
+        val, count = self._raw.get(key, (0, 0))
+        val += data
+        count += 1
+        self._raw[key] = (val, count)
+        self._data[key] = val / count
+        self._dirty.add(key)
+
+    def additional_reset(self):
+        """
+        Resets the Conflator. After calling this there will be no dirty keys.
+        """
+        self._raw = {}
+
+
+class BufferConflator(Conflator):
+    """
+    Conflator that buffers values
+    """
+    def __init__(self):
+        super(BufferConflator, self).__init__()
+
+    def __setitem__(self, key, data):
+        _data = self._data.get(key, [])
+        _data.append(data)
+        self._data[key] = _data
+        self._dirty.add(key)
+
+    def additional_reset(self):
+        """
+        Resets the Conflator. After calling this there will be no dirty keys.
+        """
+        self._data = {}

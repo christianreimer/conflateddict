@@ -116,3 +116,31 @@ def test_ohlc_conflator_last():
 def test_ohlc_conflator_str():
     c = conflate.OHLCConflator()
     assert str(c) == '<OHLCConflator dirty:0 entries:0>'
+
+
+def test_mean_conflator():
+    c = conflate.MeanConflator()
+    c[1] = 1
+    c[1] = 2
+    c[1] = 3
+    assert c[1] == 2
+    c.reset()
+    c[1] = 5
+    assert c[1] == 5
+
+
+def test_mean_conflator_str():
+    c = conflate.MeanConflator()
+    assert str(c) == '<MeanConflator dirty:0 entries:0>'
+
+
+def test_buffered_conflator():
+    c = conflate.BufferConflator()
+    for i in range(5):
+        c[1] = i
+    assert sorted(c[1]) == list(range(5))
+    c.reset()
+    with pytest.raises(KeyError):
+        c[1]
+
+
