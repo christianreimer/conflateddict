@@ -34,6 +34,12 @@ class Conflator(object):
             return self._data[key]
         raise KeyError('{} not found in dirty set'.format(key))
 
+    def dirty(self, key):
+        """
+        Return True if the key is dirty.
+        """
+        return key in self._dirty
+
     def values(self):
         """
         Return iterator over dirty values.
@@ -61,6 +67,13 @@ class Conflator(object):
         self._dirty = set()
         if hasattr(self, 'additional_reset'):
             self.additional_reset()
+
+    def clear_all(self):
+        """
+        Clear out all the data in the conflator.
+        """
+        self.reset()
+        self._data = {}
 
     def data(self):
         """
@@ -119,21 +132,22 @@ class MeanConflator(Conflator):
         self._raw = {}
 
 
-class BufferConflator(Conflator):
+class BatchConflator(Conflator):
     """
-    Conflator that buffers values
+    Conflator that batches values
     """
     def __init__(self):
-        super(BufferConflator, self).__init__()
+        super(BatchConflator, self).__init__()
 
     def __setitem__(self, key, data):
-        _data = self._data.get(key, [])
+        if key not in self._dirty:
+            # This is the first time (in this inverval) that we see this key,
+            # so we need to clear out the data for this key
+            _data = []
+        else:
+            _data = self._data[key]
+
         _data.append(data)
         self._data[key] = _data
         self._dirty.add(key)
 
-    def additional_reset(self):
-        """
-        Resets the Conflator. After calling this there will be no dirty keys.
-        """
-        self._data = {}

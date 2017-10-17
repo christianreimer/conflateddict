@@ -82,6 +82,26 @@ def test_simple_conflator_iter():
         assert cc == i
 
 
+def test_simple_conflator_reset_all():
+    c = conflate.Conflator()
+    for i in range(5):
+        c[i] = i
+    assert c[1] == 1
+    c.clear_all()
+    assert not c.data()
+
+
+def test_timple_conflator_dirty_check():
+    c = conflate.Conflator()
+    for i in range(5):
+        c[i] = i
+    for i in range(5):
+        assert c.dirty(i)
+    c.reset()
+    for i in range(5):
+        assert not c.dirty(i)
+
+
 def test_ohlc_conflator():
     c = conflate.OHLCConflator()
     for i in range(5):
@@ -134,13 +154,11 @@ def test_mean_conflator_str():
     assert str(c) == '<MeanConflator dirty:0 entries:0>'
 
 
-def test_buffered_conflator():
-    c = conflate.BufferConflator()
+def test_batch_conflator():
+    c = conflate.BatchConflator()
     for i in range(5):
         c[1] = i
     assert sorted(c[1]) == list(range(5))
     c.reset()
-    with pytest.raises(KeyError):
-        c[1]
 
 
