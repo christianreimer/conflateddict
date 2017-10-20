@@ -1,5 +1,21 @@
 """
-Conflating updates
+Conflate
+
+This module contains classes to assist with conflating streaming data. This can
+be used to manage the load on conuming tasks, and is especially useful if the
+consumers only need the current value and can thus safely discard intermediate
+updates.
+
+Conflator - Basic conflator that will only return the most recent value.
+
+OHLCConflator - Conflator that will return the Open, High, Low, and Close
+values obsered during the interval.
+
+MeanConflator - Conflator that will return the mean of the values observed
+during the interval.
+
+BatchConflator - Conflator that will return all the values (in a batch)
+observed during the interval.
 """
 
 import collections
@@ -84,7 +100,7 @@ class Conflator(object):
 
 class OHLCConflator(Conflator):
     """
-    Conflator returning OHLC values
+    Conflator returning Open, High, Lown, and Close (Last) values
     """
     def __init__(self):
         super(OHLCConflator, self).__init__()
@@ -127,7 +143,8 @@ class MeanConflator(Conflator):
 
     def additional_reset(self):
         """
-        Resets the Conflator. After calling this there will be no dirty keys.
+        Resets the raw data to ensure a new mean is calculate for the next
+        interval.
         """
         self._raw = {}
 
@@ -150,4 +167,3 @@ class BatchConflator(Conflator):
         _data.append(data)
         self._data[key] = _data
         self._dirty.add(key)
-
