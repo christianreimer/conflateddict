@@ -19,6 +19,7 @@ observed during the interval.
 """
 
 import collections
+import queue
 
 ohlc = collections.namedtuple('ohlc', 'open high low close')
 
