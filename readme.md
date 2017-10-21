@@ -1,6 +1,6 @@
 # Classes to help conflate streaming data
 
-[![Build Status](https://travis-ci.org/christianreimer/conflate.svg?branch=master)](https://travis-ci.org/christianreimer/conflate)  [![Coverage Status](https://coveralls.io/repos/github/christianreimer/conflate/badge.svg?branch=master)](https://coveralls.io/github/christianreimer/conflate?branch=master)  [![Python Version](https://img.shields.io/badge/python-3.6-blue.svg)](https://img.shields.io/badge/python-3.6-blue.svg)
+[![Build Status](https://travis-ci.org/christianreimer/conflateddict.svg?branch=master)](https://travis-ci.org/christianreimer/conflateddict)  [![Coverage Status](https://coveralls.io/repos/github/christianreimer/conflateddict/badge.svg?branch=master)](https://coveralls.io/github/christianreimer/conflateddict?branch=master)  [![Python Version](https://img.shields.io/badge/python-3.6-blue.svg)](https://img.shields.io/badge/python-3.6-blue.svg)
 
 This module contains classes to assist with conflating streaming data. This can
 be used to manage the load on conuming tasks, and is especially useful if the
