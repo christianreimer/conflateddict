@@ -1,4 +1,4 @@
-### Classes to help conflate streaming data
+# Classes to help conflate streaming data
 
 [![Build Status](https://travis-ci.org/christianreimer/conflate.svg?branch=master)](https://travis-ci.org/christianreimer/conflate)  [![Coverage Status](https://coveralls.io/repos/github/christianreimer/conflate/badge.svg?branch=master)](https://coveralls.io/github/christianreimer/conflate?branch=master)  [![Python Version](https://img.shields.io/badge/python-3.6-blue.svg)](https://img.shields.io/badge/python-3.6-blue.svg)
 
@@ -10,13 +10,13 @@ updates.
 Why not simply use a new empty dict for each interval? Because many applications require 
 all the data when first starting up or connecting (aka initial paint, flatpaint, snapshot, broadcast), and then simply subsequent updates. By using a conflator this paradign can be supported.
 
-# Example
+### Example
 ```python
->>> import conflate
+>>> import conflateddict
 >>> import random
 >>>
 >>> keys = ['red', 'green', 'blue', 'orange']
->>> con = conflate.Conflator()
+>>> con = conflateddict.ConflatedDict()
 >>> for _ in range(100):
 ...    con[random.choice(keys)] = random.randint(0, 100)
 ...
@@ -35,10 +35,11 @@ all the data when first starting up or connecting (aka initial paint, flatpaint,
 >>> # We still have access to all the values
 >>> print(list(con.data().items()))
 [('blue', 80), ('red', 71), ('green', 71), ('orange', 58)]
+>>>
 ```
 
 
-```Conflator``` is a basic conflator that will only return the most recent value.
+```ConflatedDict``` is a basic conflator that will only return the most recent value.
 
 ```OHLCConflator``` is a conflator that will return the Open, High, Low, and Close
 values obsered during the interval.

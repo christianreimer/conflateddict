@@ -1,20 +1,20 @@
 """
-Conflate
+ConflatedDict
 
 This module contains classes to assist with conflating streaming data. This can
 be used to manage the load on conuming tasks, and is especially useful if the
 consumers only need the current value and can thus safely discard intermediate
 updates.
 
-Conflator - Basic conflator that will only return the most recent value.
+ConflatedDict - Basic ConflatedDict that will only return the most recent value.
 
-OHLCConflator - Conflator that will return the Open, High, Low, and Close
+OHLCConflator - ConflatedDict that will return the Open, High, Low, and Close
 values obsered during the interval.
 
-MeanConflator - Conflator that will return the mean of the values observed
+MeanConflator - ConflatedDict that will return the mean of the values observed
 during the interval.
 
-BatchConflator - Conflator that will return all the values (in a batch)
+BatchConflator - ConflatedDict that will return all the values (in a batch)
 observed during the interval.
 """
 
@@ -23,10 +23,11 @@ import collections
 ohlc = collections.namedtuple('ohlc', 'open high low close')
 
 
-class Conflator(object):
+class ConflatedDict(object):
     """
-    Simple Conflator returning dirty values
+    Simple ConflatedDict returning dirty values
     """
+
     def __init__(self):
         self._data = {}
         self._dirty = set()
@@ -78,7 +79,7 @@ class Conflator(object):
 
     def reset(self):
         """
-        Resets the Conflator. After calling this there will be no dirty keys.
+        Resets dirty map. After calling this there will be no dirty keys.
         """
         self._dirty = set()
         if hasattr(self, 'additional_reset'):
@@ -86,7 +87,7 @@ class Conflator(object):
 
     def clear_all(self):
         """
-        Clear out all the data in the conflator.
+        Clear out all the data in the ConflatedDict.
         """
         self.reset()
         self._data = {}
@@ -98,10 +99,11 @@ class Conflator(object):
         return self._data
 
 
-class OHLCConflator(Conflator):
+class OHLCConflator(ConflatedDict):
     """
-    Conflator returning Open, High, Lown, and Close (Last) values
+    ConflatedDict returning Open, High, Lown, and Close (Last) values
     """
+
     def __init__(self):
         super(OHLCConflator, self).__init__()
 
@@ -125,12 +127,13 @@ class OHLCConflator(Conflator):
         self._dirty.add(key)
 
 
-class MeanConflator(Conflator):
+class MeanConflator(ConflatedDict):
     """
-    Conflator returning mean values
+    ConflatedDict returning mean values
     """
+
     def __init__(self):
-        super(MeanConflator, self).__init__()  # pragma: no cover
+        super(MeanConflator, self).__init__()
         self._raw = {}
 
     def __setitem__(self, key, data):
@@ -149,10 +152,11 @@ class MeanConflator(Conflator):
         self._raw = {}
 
 
-class BatchConflator(Conflator):
+class BatchConflator(ConflatedDict):
     """
-    Conflator that batches values
+    ConflatedDict that batches values
     """
+
     def __init__(self):
         super(BatchConflator, self).__init__()
 

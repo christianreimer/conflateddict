@@ -1,9 +1,9 @@
-import conflate
+import conflateddict
 import pytest
 
 
 def test_simple_conflator_value():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     c[1] = 1
     c[2] = 2
     c[1] = 2
@@ -11,7 +11,7 @@ def test_simple_conflator_value():
 
 
 def test_simple_conflator_reset():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     c[1] = 1
     c[2] = 2
     assert c[1] == 1
@@ -23,7 +23,7 @@ def test_simple_conflator_reset():
 
 
 def test_simple_conflator_len():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     for i in range(5):
         c[1] = i
         assert len(c) == 1
@@ -36,28 +36,28 @@ def test_simple_conflator_len():
 
 
 def test_simple_conflator_values():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     for i in range(5):
         c[i] = i
     assert sorted(c.values()) == list(range(5))
 
 
 def test_simple_conflator_keys():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     for i in range(5):
         c[i] = i
     assert sorted(c.keys()) == list(range(5))
 
 
 def test_simple_conflator_items():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     for i in range(5):
         c[i] = i
     assert sorted(c.items()) == [(i, i) for i in range(5)]
 
 
 def test_simple_conflator_data():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     for i in range(5):
         c[i] = i
     data = c.data()
@@ -65,17 +65,17 @@ def test_simple_conflator_data():
 
 
 def test_simple_conflator_str():
-    c = conflate.Conflator()
-    assert str(c) == '<Conflator dirty:0 entries:0>'
+    c = conflateddict.ConflatedDict()
+    assert str(c) == '<ConflatedDict dirty:0 entries:0>'
     for i in range(5):
         c[1] = i
-    assert str(c) == '<Conflator dirty:1 entries:1>'
+    assert str(c) == '<ConflatedDict dirty:1 entries:1>'
     c.reset()
-    assert str(c) == '<Conflator dirty:0 entries:1>'
+    assert str(c) == '<ConflatedDict dirty:0 entries:1>'
 
 
 def test_simple_conflator_iter():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     for i in range(5):
         c[i] = i
     for i, cc in enumerate(c):
@@ -83,7 +83,7 @@ def test_simple_conflator_iter():
 
 
 def test_simple_conflator_reset_all():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     for i in range(5):
         c[i] = i
     assert c[1] == 1
@@ -92,7 +92,7 @@ def test_simple_conflator_reset_all():
 
 
 def test_timple_conflator_dirty_check():
-    c = conflate.Conflator()
+    c = conflateddict.ConflatedDict()
     for i in range(5):
         c[i] = i
     for i in range(5):
@@ -103,14 +103,14 @@ def test_timple_conflator_dirty_check():
 
 
 def test_ohlc_conflator():
-    c = conflate.OHLCConflator()
+    c = conflateddict.OHLCConflator()
     for i in range(5):
         c[1] = i
     assert c[1] == (0, 4, 0, 4)
 
 
 def test_ohlc_conflator_high():
-    c = conflate.OHLCConflator()
+    c = conflateddict.OHLCConflator()
     for i in range(5):
         c[1] = i
     c[1] = 5
@@ -118,7 +118,7 @@ def test_ohlc_conflator_high():
 
 
 def test_ohlc_conflator_low():
-    c = conflate.OHLCConflator()
+    c = conflateddict.OHLCConflator()
     for i in range(5):
         c[1] = i
     c[1] = -1
@@ -126,7 +126,7 @@ def test_ohlc_conflator_low():
 
 
 def test_ohlc_conflator_last():
-    c = conflate.OHLCConflator()
+    c = conflateddict.OHLCConflator()
     for i in range(5):
         c[1] = i
     c[1] = 2
@@ -134,12 +134,12 @@ def test_ohlc_conflator_last():
 
 
 def test_ohlc_conflator_str():
-    c = conflate.OHLCConflator()
+    c = conflateddict.OHLCConflator()
     assert str(c) == '<OHLCConflator dirty:0 entries:0>'
 
 
 def test_mean_conflator():
-    c = conflate.MeanConflator()
+    c = conflateddict.MeanConflator()
     c[1] = 1
     c[1] = 2
     c[1] = 3
@@ -150,12 +150,12 @@ def test_mean_conflator():
 
 
 def test_mean_conflator_str():
-    c = conflate.MeanConflator()
+    c = conflateddict.MeanConflator()
     assert str(c) == '<MeanConflator dirty:0 entries:0>'
 
 
 def test_batch_conflator():
-    c = conflate.BatchConflator()
+    c = conflateddict.BatchConflator()
     for i in range(5):
         c[1] = i
     assert sorted(c[1]) == list(range(5))
