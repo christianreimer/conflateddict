@@ -10,17 +10,6 @@ updates.
 Why not simply use a new empty dict for each interval? Because many applications require 
 all the data when first starting up or connecting (aka initial paint, flatpaint, snapshot, broadcast), and then simply subsequent updates. By using a conflator this paradign can be supported.
 
-```Conflator``` is a basic conflator that will only return the most recent value.
-
-```OHLCConflator``` is a conflator that will return the Open, High, Low, and Close
-values obsered during the interval.
-
-```MeanConflator``` is a conflator that will return the mean of the values observed
-during the interval.
-
-```BatchConflator``` is a conflator that will return all the values (in a batch)
-observed during the interval.
-
 # Example
 ```python
 >>> import conflate
@@ -47,3 +36,15 @@ observed during the interval.
 >>> print(list(con.data().items()))
 [('blue', 80), ('red', 71), ('green', 71), ('orange', 58)]
 ```
+
+
+```Conflator``` is a basic conflator that will only return the most recent value.
+
+```OHLCConflator``` is a conflator that will return the Open, High, Low, and Close
+values obsered during the interval.
+
+```MeanConflator``` is a conflator that will return the mean of the values observed
+during the interval.
+
+```BatchConflator``` is a conflator that will return all the values (in a batch)
+observed during the interval.
