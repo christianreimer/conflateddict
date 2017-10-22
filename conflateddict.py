@@ -6,15 +6,15 @@ be used to manage the load on conuming tasks, and is especially useful if the
 consumers only need the current value and can thus safely discard intermediate
 updates.
 
-ConflatedDict - Basic ConflatedDict that will only return the most recent value.
+ConflatedDict - Basic ConflatedDict will only return the most recent value.
 
-OHLCConflator - ConflatedDict that will return the Open, High, Low, and Close
+OHLCConflator - ConflatedDict will return the Open, High, Low, and Close
 values obsered during the interval.
 
-MeanConflator - ConflatedDict that will return the mean of the values observed
+MeanConflator - ConflatedDict will return the mean of the values observed
 during the interval.
 
-BatchConflator - ConflatedDict that will return all the values (in a batch)
+BatchConflator - ConflatedDict will return all the values (in a batch)
 observed during the interval.
 """
 
