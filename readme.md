@@ -49,3 +49,5 @@ during the interval.
 
 ```BatchConflator``` is a conflator that will return all the values (in a batch)
 observed during the interval.
+ 
+```LambdaConflator``` takes a user provided function of the form ```f(v, vl) -> cv``` where v is the current value and vl is the list of past values observed during the interval and returns the conflated value cv.
