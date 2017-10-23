@@ -51,11 +51,20 @@ class ConflatedDict(object):
             return self._data[key]
         raise KeyError('{} not found in dirty set'.format(key))
 
+    def __contains__(self, key):
+        return key in self._dirty
+
+    def __delitem__(self, key):
+        if key not in self._dirty:
+            raise KeyError(key)
+        self._dirty.remove(key)
+        del self._data[key]
+
     def dirty(self, key):
         """
         Return True if the key is dirty.
         """
-        return key in self._dirty
+        return self.__contains__(key)
 
     def values(self):
         """
@@ -81,16 +90,16 @@ class ConflatedDict(object):
         """
         Resets dirty map. After calling this there will be no dirty keys.
         """
-        self._dirty = set()
+        self._dirty.clear()
         if hasattr(self, 'additional_reset'):
             self.additional_reset()
 
-    def clear_all(self):
+    def clear(self):
         """
         Clear out all the data in the ConflatedDict.
         """
-        self.reset()
-        self._data = {}
+        self._dirty.clear()
+        self._data.clear()
 
     def data(self):
         """
@@ -149,7 +158,7 @@ class MeanConflator(ConflatedDict):
         Resets the raw data to ensure a new mean is calculate for the next
         interval.
         """
-        self._raw = {}
+        self._raw.clear()
 
 
 class BatchConflator(ConflatedDict):
@@ -171,3 +180,34 @@ class BatchConflator(ConflatedDict):
         _data.append(data)
         self._data[key] = _data
         self._dirty.add(key)
+
+
+class LambdaConflator(ConflatedDict):
+    """
+    ConflatedDict which conflates based on a user provided function
+    """
+
+    def __init__(self, f_conf, name=None):
+        super(LambdaConflator, self).__init__()
+        self._f_conf = f_conf
+        self._raw = {}
+        self._name = name
+
+    def __setitem__(self, key, value):
+        _raw = self._raw.get(key, [])
+        self._data[key] = self._f_conf(value, _raw)
+        self._dirty.add(key)
+        _raw.append(value)
+        self._raw[key] = _raw
+
+    def __str__(self):
+        return '<{} dirty:{} entries:{}>'.format(
+            self._name and self._name or self.__class__.__name__,
+            len(self._dirty), len(self._data))
+
+    def additional_reset(self):
+        """
+        Resets the raw data to ensure a new mean is calculate for the next
+        interval.
+        """
+        self._raw.clear()

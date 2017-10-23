@@ -87,11 +87,11 @@ def test_simple_conflator_reset_all():
     for i in range(5):
         c[i] = i
     assert c[1] == 1
-    c.clear_all()
+    c.clear()
     assert not c.data()
 
 
-def test_timple_conflator_dirty_check():
+def test_simple_conflator_dirty_check():
     c = conflateddict.ConflatedDict()
     for i in range(5):
         c[i] = i
@@ -100,6 +100,23 @@ def test_timple_conflator_dirty_check():
     c.reset()
     for i in range(5):
         assert not c.dirty(i)
+
+
+def test_simple_conflator_delitem():
+    c = conflateddict.ConflatedDict()
+    for i in range(5):
+        c[i] = i
+
+    del c[1]
+    assert sorted(c.keys()) == [0, 2, 3, 4]
+
+
+def test_simple_conflator_delitem_keyerror():
+    c = conflateddict.ConflatedDict()
+    for i in range(5):
+        c[i] = i
+    with pytest.raises(KeyError):
+        del c['hello']
 
 
 def test_ohlc_conflator():
@@ -161,4 +178,27 @@ def test_batch_conflator():
     assert sorted(c[1]) == list(range(5))
     c.reset()
 
+
+def test_lambda_conflator():
+    c = conflateddict.LambdaConflator(lambda x, y: x + sum(y))
+    c[1] = 1
+    assert c[1] == 1
+    c[1] = 2
+    assert c[1] == 3
+    c[1] = 3
+    assert c[1] == 6
+    c.reset()
+    c[1] = 1
+    assert c[1] == 1
+
+
+def test_lambda_conflator_str():
+    c = conflateddict.LambdaConflator(lambda x, y: x + sum(y))
+    assert str(c) == '<LambdaConflator dirty:0 entries:0>'
+
+
+def test_lambda_conflator_name():
+    n = 'MyName'
+    c = conflateddict.LambdaConflator(lambda x, y: x + sum(y), n)
+    assert str(c) == '<{} dirty:{} entries:{}>'.format(n, 0, 0)
 
