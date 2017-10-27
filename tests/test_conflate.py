@@ -202,3 +202,13 @@ def test_lambda_conflator_name():
     c = conflateddict.LambdaConflator(lambda x, y: x + sum(y), n)
     assert str(c) == '<{} dirty:{} entries:{}>'.format(n, 0, 0)
 
+
+def test_lambda_conflator_default_args():
+    lc = conflateddict.LambdaConflator()
+    dc = conflateddict.ConflatedDict()
+
+    for i in range(10):
+        key = i % 3
+        lc[key] = i
+        dc[key] = i
+        assert lc[key] == dc[key]

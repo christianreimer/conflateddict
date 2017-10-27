@@ -33,32 +33,58 @@ class ConflatedDict(object):
     """
 
     def __init__(self):
+        """
+        Initialize ConflatedDict with empty dataset and no dirty keys.
+        """
         self._data = {}
         self._dirty = set()
 
     def __str__(self):
+        """
+        Return decription of the ConflatedDict
+        """
         return '<{} dirty:{} entries:{}>'.format(
             self.__class__.__name__, len(self._dirty), len(self._data))
 
     def __len__(self):
+        """
+        Return the number of dirty keys.
+        """
         return len(self._dirty)
 
     def __iter__(self):
+        """
+        Return iterater over dirty keys.
+        """
         return iter(self._dirty)
 
     def __setitem__(self, key, data):
+        """
+        Set (or update) the value of key to be equal to data and mark key
+        as being dirty.
+        """
         self._data[key] = data
         self._dirty.add(key)
 
     def __getitem__(self, key):
+        """
+        Return the stored value for key. Raises KeyError if key is not dirty.
+        """
         if key in self._dirty:
             return self._data[key]
         raise KeyError('{} not found in dirty set'.format(key))
 
     def __contains__(self, key):
+        """
+        Return true if key is dirty.
+        """
         return key in self._dirty
 
     def __delitem__(self, key):
+        """
+        Delete key and value from internal datastores. Raises KeyError
+        if key is not dirty.
+        """
         if key not in self._dirty:
             raise KeyError(key)
         self._dirty.remove(key)
@@ -121,6 +147,10 @@ class OHLCConflator(ConflatedDict):
         super(OHLCConflator, self).__init__()
 
     def __setitem__(self, key, data):
+        """
+        Set one or more of the Open, High, Low, Close values for key
+        depending on the value of data. Close will always be updated.
+        """
         _data = self._data.get(key, None)
 
         if _data:
@@ -150,6 +180,9 @@ class MeanConflator(ConflatedDict):
         self._raw = {}
 
     def __setitem__(self, key, data):
+        """
+        Update the mean value for key and mark key as dirty.
+        """
         val, count = self._raw.get(key, (0, 0))
         val += data
         count += 1
@@ -174,6 +207,9 @@ class BatchConflator(ConflatedDict):
         super(BatchConflator, self).__init__()
 
     def __setitem__(self, key, data):
+        """
+        Append data to the batch of values for key and mark key as dirty.
+        """
         if key not in self._dirty:
             # This is the first time (in this inverval) that we see this key,
             # so we need to clear out the data for this key
@@ -191,13 +227,25 @@ class LambdaConflator(ConflatedDict):
     ConflatedDict which conflates based on a user provided function
     """
 
-    def __init__(self, f_conf, name=None):
+    def __init__(self, f_conf=lambda x, y: x, name=None):
+        """
+        Initialize LambdaConflator. The argument f_conf must be a function
+        of the format `lambda x, y: return z` where x is the current value
+        (when updating the conflator), y is the list of past values
+        observed for this key (since the last reset), and z is the desired
+        conflated value.
+        """
         super(LambdaConflator, self).__init__()
         self._f_conf = f_conf
         self._raw = {}
         self._name = name
 
     def __setitem__(self, key, value):
+        """
+        Set value of key to be the result of calling the passed in conflator
+        with value and the list of values previousely observed for key. Also
+        marks key as dirty.
+        """
         _raw = self._raw.get(key, [])
         self._data[key] = self._f_conf(value, _raw)
         self._dirty.add(key)
