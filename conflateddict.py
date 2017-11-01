@@ -235,6 +235,7 @@ class LambdaConflator(ConflatedDict):
         observed for this key (since the last reset), and z is the desired
         conflated value.
         """
+
         super(LambdaConflator, self).__init__()
         self._f_conf = f_conf
         self._raw = {}

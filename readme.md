@@ -22,19 +22,24 @@ all the data when first starting up or connecting (aka initial paint, flatpaint,
 ...
 >>> print(list(con.items())
 [('orange', 32), ('green', 71), ('red', 71), ('blue', 80)]
->>>
+>>> print(len(con))
+4
 >>> # After a reset, there will be no dirty values
 >>> con.reset()
 >>> print(list(con.items())
 []
->>> # After another update, the dirty values will be returned
+>>> print(len(con))
+0
+>>> # After another update, any new dirty values will be returned
 >>> con[random.choice(keys)] = random.randint(0, 100)
 >>> print(list(con.items())
 [('orange', 58)]
 >>>
->>> # We still have access to all the values
+>>> # We still have access to all the values through data()
 >>> print(list(con.data().items()))
 [('blue', 80), ('red', 71), ('green', 71), ('orange', 58)]
+>>> print(len(con.data()))
+4
 >>>
 ```
 
