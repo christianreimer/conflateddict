@@ -43,8 +43,8 @@ class ConflatedDict(object):
         """
         Return decription of the ConflatedDict
         """
-        return '<{} dirty:{} entries:{}>'.format(
-            self.__class__.__name__, len(self._dirty), len(self._data))
+        return f'<{self.__class__.__name__} ' \
+            f'dirty:{len(self._dirty)} entries:{len(self._data)}>'
 
     def __len__(self):
         """
@@ -254,9 +254,8 @@ class LambdaConflator(ConflatedDict):
         self._raw[key] = _raw
 
     def __str__(self):
-        return '<{} dirty:{} entries:{}>'.format(
-            self._name and self._name or self.__class__.__name__,
-            len(self._dirty), len(self._data))
+        return f'<{self._name and self._name or self.__class__.__name__} ' \
+            f'dirty:{len(self._dirty)} entries:{len(self._data)}>'
 
     def additional_reset(self):
         """
