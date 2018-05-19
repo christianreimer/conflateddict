@@ -46,7 +46,7 @@ all the data when first starting up or connecting (aka initial paint, flatpaint,
 
 ```ConflatedDict``` is a basic conflator that will only return the most recent value.
 
-```OHLCConflator``` is a conflator that will return the Open, High, Low, and Close
+```OHLCConflator``` is a conflator that will return the Open, High, Low, and Close (last) 
 values obsered during the interval.
 
 ```MeanConflator``` is a conflator that will return the mean of the values observed

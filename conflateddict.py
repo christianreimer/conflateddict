@@ -29,7 +29,7 @@ ohlc = collections.namedtuple('ohlc', 'open high low close')
 
 class ConflatedDict(object):
     """
-    Simple ConflatedDict returning dirty values
+    Simple ConflatedDict returning only dirty values
     """
 
     def __init__(self):
@@ -43,8 +43,8 @@ class ConflatedDict(object):
         """
         Return decription of the ConflatedDict
         """
-        return f'<{self.__class__.__name__} ' \
-            f'dirty:{len(self._dirty)} entries:{len(self._data)}>'
+        return (f'<{self.__class__.__name__} '
+                f'dirty:{len(self._dirty)} entries:{len(self._data)}>')
 
     def __len__(self):
         """
@@ -54,7 +54,7 @@ class ConflatedDict(object):
 
     def __iter__(self):
         """
-        Return iterater over dirty keys.
+        Return iterator over dirty keys.
         """
         return iter(self._dirty)
 
@@ -72,7 +72,7 @@ class ConflatedDict(object):
         """
         if key in self._dirty:
             return self._data[key]
-        raise KeyError('{} not found in dirty set'.format(key))
+        raise KeyError(f'{key} not found in dirty set')
 
     def __contains__(self, key):
         """
@@ -151,21 +151,17 @@ class OHLCConflator(ConflatedDict):
         Set one or more of the Open, High, Low, Close values for key
         depending on the value of data. Close will always be updated.
         """
-        _data = self._data.get(key, None)
+        _data = self._data.get(key, ohlc(data, data, data, data))
 
-        if _data:
-            if data > _data.high:
-                # New high and new last
-                self._data[key] = ohlc(_data.open, data, _data.low, data)
-            elif data < _data.low:
-                # New low and new last
-                self._data[key] = ohlc(_data.open, _data.high, data, data)
-            else:
-                # New last
-                self._data[key] = ohlc(_data.open, _data.high, _data.low, data)
+        if data > _data.high:
+            # New high and new last
+            self._data[key] = ohlc(_data.open, data, _data.low, data)
+        elif data < _data.low:
+            # New low and new last
+            self._data[key] = ohlc(_data.open, _data.high, data, data)
         else:
-            # First observation of key
-            self._data[key] = ohlc(data, data, data, data)
+            # New last
+            self._data[key] = ohlc(_data.open, _data.high, _data.low, data)
 
         self._dirty.add(key)
 
