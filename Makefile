@@ -1,4 +1,4 @@
-.PHONY: test clean install
+.PHONY: test clean install build
 
 test: 
 	pytest --cov-report term-missing --cov=conflateddict --verbose tests/*
@@ -11,3 +11,6 @@ clean:
 
 install:
 	pip install -r requirements_test.txt
+
+build:
+	python setup.py sdist bdist_wheel
