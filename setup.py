@@ -2,8 +2,8 @@ import setuptools
 
 setuptools.setup(
     name="conflateddict",
-    version="0.1.0",
-    url="https://github.com/creimer/conflateddict",
+    version="0.1.1",
+    url="https://github.com/christianreimer/conflateddict",
     author="Christian Reimer",
     author_email="christian.reimer@gmail.com",
     description="Classes to help conflate streaming data.",
