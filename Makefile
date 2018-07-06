@@ -1,7 +1,7 @@
 .PHONY: test clean install
 
 test: 
-	pytest --cov-report term-missing --cov=. --verbose tests/*
+	pytest --cov-report term-missing --cov=conflateddict --verbose tests/*
 
 clean:
 	@echo "Removing cache directories"
