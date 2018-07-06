@@ -5,6 +5,17 @@ import collections
 class ModeConflator(conflateddict.ConflatedDict):
     """
     ConflatedDict returning the mode value for a key.
+
+    Example:
+        >>> mc = ModeConflator()
+        >>> mc['key'] = 1
+        >>> mc['key'] = 2
+        >>> mc['key'] = 2
+        >>> mc['key'] = 2
+        >>> mc['key'] = 2
+        >>> mc['key'] = 3
+        >>> print(mc['key'])
+        (2, 4)
     """
 
     def __init__(self):
