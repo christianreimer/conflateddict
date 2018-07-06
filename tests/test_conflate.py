@@ -273,6 +273,17 @@ def test_mode_conflator():
     assert c['key'] == (1, 4)
 
 
+def test_mode_conflator_with_reset():
+    c = conflateddict.ModeConflator()
+    c['key'] = 1
+    c['key'] = 1
+    c['key'] = 1
+    c['key'] = 2
+    assert c['key'] == (1, 3)
+    c.clear()
+    c['key'] = 2
+    assert c['key'] == (2, 1)
+
 def test_mode_conflator_key_not_found():
     c = conflateddict.ModeConflator()
     c['key'] = 1
