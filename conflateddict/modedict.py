@@ -1,9 +1,10 @@
 from . import conflateddict
 import collections
 
+
 class ModeConflator(conflateddict.ConflatedDict):
     """
-    ConflatedDict returning mean values.
+    ConflatedDict returning the mode value for a key.
     """
 
     def __init__(self):
@@ -20,7 +21,8 @@ class ModeConflator(conflateddict.ConflatedDict):
     
     def __getitem__(self, key):
         """
-        Return the stored value for key. Raises KeyError if key is not dirty.
+        Return the most commonly observed value for key. Raises KeyError if
+        key is not dirty.
         """
         if key in self._dirty:
             return self._data[key].most_common(1)[0]
