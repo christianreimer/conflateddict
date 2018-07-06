@@ -36,3 +36,4 @@ from .batchdict import BatchConflator
 from .ohlcdict import OHLCConflator
 from .meandict import MeanConflator
 from .lambdadict import LambdaConflator
+from .modedict import ModeConflator
