@@ -3,12 +3,12 @@
 [![Build Status](https://travis-ci.org/christianreimer/conflateddict.svg?branch=master)](https://travis-ci.org/christianreimer/conflateddict)  [![Coverage Status](https://coveralls.io/repos/github/christianreimer/conflateddict/badge.svg?branch=master)](https://coveralls.io/github/christianreimer/conflateddict?branch=master)  [![Python Version](https://img.shields.io/badge/python-3.6-blue.svg)](https://img.shields.io/badge/python-3.6-blue.svg)
 
 This module contains classes to assist with conflating streaming data. This can
-be used to manage the load on conuming tasks, and is especially useful if the
+be used to manage the load on consuming tasks, and is especially useful if the
 consumers only need the current value and can thus safely discard intermediate
 updates.
 
 Why not simply use a new empty dict for each interval? Because many applications require 
-all the data when first starting up or connecting (aka initial paint, flatpaint, snapshot, broadcast), and then simply subsequent updates. By using a conflator this paradign can be supported.
+all the data when first starting up or connecting (aka initial paint, flatpaint, snapshot, broadcast), and then simply subsequent updates. By using a conflator this paradigm can be supported.
 
 ### Example
 ```python
@@ -47,7 +47,7 @@ all the data when first starting up or connecting (aka initial paint, flatpaint,
 ```ConflatedDict``` is a basic conflator that will only return the most recent value.
 
 ```OHLCConflator``` is a conflator that will return the Open, High, Low, and Close (last) 
-values obsered during the interval.
+values observed during the interval.
 
 ```MeanConflator``` is a conflator that will return the mean of the values observed
 during the interval.

@@ -1,6 +1,6 @@
 import conflateddict
 import pytest
-
+import random
 
 def test_simple_conflator_value():
     c = conflateddict.ConflatedDict()
@@ -142,7 +142,7 @@ def test_ohlc_conflator_low():
     assert c[1] == (0, 4, -1, -1)
 
 
-def test_ohlc_conflator_last():
+def test_ohlc_conflator_close():
     c = conflateddict.OHLCConflator()
     for i in range(5):
         c[1] = i
@@ -150,9 +150,18 @@ def test_ohlc_conflator_last():
     assert c[1] == (0, 4, 0, 2)
 
 
-def test_ohlc_conflator_str():
+def test_ohlc_conflator_str_clean():
     c = conflateddict.OHLCConflator()
     assert str(c) == '<OHLCConflator dirty:0 entries:0>'
+
+
+def test_ohlc_conflator_str_dirty():
+    c = conflateddict.OHLCConflator()
+    for i in range(random.randint(1, 10)):
+        c[i] = i
+    expected_str = '<OHLCConflator dirty:{dirty} entries:{entries}>'.format(
+        dirty=i+1, entries=i+1)
+    assert str(c) == expected_str
 
 
 def test_mean_conflator():
@@ -166,9 +175,35 @@ def test_mean_conflator():
     assert c[1] == 5
 
 
-def test_mean_conflator_str():
+def test_mean_conflator_float():
+    c = conflateddict.MeanConflator()
+    c[1] = 1.0
+    c[1] = 2.0
+    c[1] = 3.0
+    assert c[1] == 2.0
+    c.reset()
+    c[1] = 5.0
+    assert c[1] == 5.0
+
+
+def test_mean_conflator_strings():
+    c = conflateddict.MeanConflator()
+    with pytest.raises(TypeError):
+        c[1] = 'Hello'
+
+
+def test_mean_conflator_str_clean():
     c = conflateddict.MeanConflator()
     assert str(c) == '<MeanConflator dirty:0 entries:0>'
+
+
+def test_mean_conflator_str_dirty():
+    c = conflateddict.MeanConflator()
+    for i in range(random.randint(1, 10)):
+        c[i] = i
+    expected_str = '<MeanConflator dirty:{dirty} entries:{entries}>'.format(
+        dirty=i+1, entries=i+1)
+    assert str(c) == expected_str
 
 
 def test_batch_conflator():
@@ -192,9 +227,18 @@ def test_lambda_conflator():
     assert c[1] == 1
 
 
-def test_lambda_conflator_str():
+def test_lambda_conflator_str_clean():
     c = conflateddict.LambdaConflator(lambda x, y: x + sum(y))
     assert str(c) == '<LambdaConflator dirty:0 entries:0>'
+
+
+def test_lambda_conflator_str_dirty():
+    c = conflateddict.LambdaConflator(lambda x, y: x + sum(y))
+    for i in range(random.randint(1, 10)):
+        c[i] = 1
+    expected_str = '<LambdaConflator dirty:{dirty} entries:{entries}>'.format(
+        dirty=i+1, entries=i+1)
+    assert str(c) == expected_str
 
 
 def test_lambda_conflator_name():
