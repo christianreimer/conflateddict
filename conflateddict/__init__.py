@@ -21,14 +21,22 @@ observed during the interval.
 LambdaConflator - A ConflatedDict that takes a user provided function of the
 form f(v, vl) -> cv where v is the current value and vl is the list of past
 values observed during the interval and returns the conflated value cv.
+
+ModeConflator - A ConflatedDict that returns the mode (most common value) for
+the key during the interval.
 """
 
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
+
 __author__ = 'Christian Reimer <christian.reimer@gmail.com>'
 
-__all__ = ['ConflatedDict', 'BatchConflator', 'OHLCConflator',
-           'MeanConflator', 'LambdaConflator']
+__all__ = ['ConflatedDict',
+           'BatchConflator',
+           'OHLCConflator',
+           'MeanConflator',
+           'LambdaConflator',
+           'ModeConflator']
 
 
 from .conflateddict import ConflatedDict
@@ -36,3 +44,4 @@ from .batchdict import BatchConflator
 from .ohlcdict import OHLCConflator
 from .meandict import MeanConflator
 from .lambdadict import LambdaConflator
+from .modedict import ModeConflator

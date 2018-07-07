@@ -256,3 +256,41 @@ def test_lambda_conflator_default_args():
         lc[key] = i
         dc[key] = i
         assert lc[key] == dc[key]
+
+
+def test_mode_conflator():
+    c = conflateddict.ModeConflator()
+    c['key'] = 1
+    c['key'] = 2
+    c['key'] = 2
+    c['key'] = 3
+    c['key'] = 3
+    c['key'] = 3
+    assert c['key'] == (3, 3)
+    c['key'] = 1
+    c['key'] = 1
+    c['key'] = 1
+    assert c['key'] == (1, 4)
+
+
+def test_mode_conflator_with_reset():
+    c = conflateddict.ModeConflator()
+    c['key'] = 1
+    c['key'] = 1
+    c['key'] = 1
+    c['key'] = 2
+    assert c['key'] == (1, 3)
+    c.clear()
+    c['key'] = 2
+    assert c['key'] == (2, 1)
+
+def test_mode_conflator_key_not_found():
+    c = conflateddict.ModeConflator()
+    c['key'] = 1
+    with pytest.raises(KeyError):
+        c['key that does not exist']
+
+
+def test_mode_conflator_name():
+    c = conflateddict.ModeConflator()
+    assert str(c) == '<ModeConflator dirty:{} entries:{}>'.format(0, 0)
