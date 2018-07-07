@@ -37,7 +37,7 @@ __all__ = ['ConflatedDict',
            'MeanConflator',
            'LambdaConflator',
            'ModeConflator']
-"""
+
 
 from .conflateddict import ConflatedDict
 from .batchdict import BatchConflator
