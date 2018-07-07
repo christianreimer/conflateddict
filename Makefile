@@ -1,7 +1,7 @@
-.PHONY: test clean install
+.PHONY: test clean install build
 
 test: 
-	pytest --cov-report term-missing --cov=. --verbose tests/*
+	pytest --cov-report term-missing --cov=conflateddict --verbose tests/*
 
 clean:
 	@echo "Removing cache directories"
@@ -11,3 +11,6 @@ clean:
 
 install:
 	pip install -r requirements_test.txt
+
+build:
+	python setup.py sdist bdist_wheel
