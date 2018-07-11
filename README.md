@@ -65,4 +65,4 @@ observed during the interval.
  
 ```LambdaConflator``` takes a user provided function of the form ```f(v, vl) -> cv``` where v is the current value and vl is the list of past values observed during the interval and returns the conflated value cv.
 
-```ModeConflatot``` is a conflator that will return the mode (most common) value observed during an interval.
+```ModeConflator``` is a conflator that will return the mode (most common) value observed during an interval.
