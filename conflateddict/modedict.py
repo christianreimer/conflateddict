@@ -2,9 +2,15 @@ from . import conflateddict
 import collections
 
 
+mode = collections.namedtuple('mode', 'value observations count')
+
+
 class ModeConflator(conflateddict.ConflatedDict):
     """
-    ConflatedDict returning the mode value for a key.
+    ConflatedDict returning the key value, the number of observations, and the
+    total count. The key returned will be the one with the most observations
+    in that interval (e.g. the mode). If there are multiple keys with the
+    same mode, one of them will be returned.
 
     Example:
         >>> mc = ModeConflator()
@@ -15,7 +21,7 @@ class ModeConflator(conflateddict.ConflatedDict):
         >>> mc['key'] = 2
         >>> mc['key'] = 3
         >>> print(mc['key'])
-        (2, 4)
+        mode(value=2, observations=4, count=6)
     """
 
     def __init__(self):
@@ -36,5 +42,6 @@ class ModeConflator(conflateddict.ConflatedDict):
         key is not dirty.
         """
         if key in self._dirty:
-            return self._data[key].most_common(1)[0]
+            value, count = self._data[key].most_common(1)[0]
+            return mode(value, count, sum(self._data[key].values()))
         raise KeyError(f'{key} not found in dirty set')
