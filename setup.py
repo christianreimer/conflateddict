@@ -2,14 +2,15 @@ import setuptools
 
 setuptools.setup(
     name="conflateddict",
-    version="0.1.1",
+    version="0.1.2",
     url="https://github.com/christianreimer/conflateddict",
     author="Christian Reimer",
     author_email="christian.reimer@gmail.com",
     description="Classes to help conflate streaming data.",
     long_description="""This module contains classes to assist with conflating streaming data. This can be used to manage the load on consuming tasks, and is especially useful if the consumers only need the current value and can thus safely discard intermediate updates.
         
-    Example:
+    Example for a standar Conflated Dict:
+    ```
         >>> from conflateddict import ConflatedDict
         >>> import random
         >>>
@@ -39,6 +40,7 @@ setuptools.setup(
         >>> print(len(con.data()))
         4
         >>>
+    ```
         """,
     packages=setuptools.find_packages(exclude=["tests"]),
     install_requires=[],
