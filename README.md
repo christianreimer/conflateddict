@@ -1,6 +1,6 @@
 # Classes to help conflate streaming data
 
-[![Build Status](https://travis-ci.org/christianreimer/conflateddict.svg?branch=master)](https://travis-ci.org/christianreimer/conflateddict)  [![Coverage Status](https://coveralls.io/repos/github/christianreimer/conflateddict/badge.svg?branch=master)](https://coveralls.io/github/christianreimer/conflateddict?branch=master)  ![Python Version 3.6](https://img.shields.io/badge/python-3.6-blue.svg) ![Python Version 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
+[![Build Status](https://travis-ci.org/christianreimer/conflateddict.svg?branch=master)](https://travis-ci.org/christianreimer/conflateddict)  [![Coverage Status](https://coveralls.io/repos/github/christianreimer/conflateddict/badge.svg?branch=master)](https://coveralls.io/github/christianreimer/conflateddict?branch=master)  [![PyPI version](https://badge.fury.io/py/conflateddict.svg)](https://badge.fury.io/py/conflateddict)   ![Python Version 3.6](https://img.shields.io/badge/python-3.6-blue.svg) ![Python Version 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
 
 
 
