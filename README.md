@@ -90,7 +90,7 @@ blue 80
 >>>
 ```
 
-## BatchConlfator Example
+## BatchConflator Example
 Use a BatchConflator if you have a system with streaming data and consumers
 that want to consumes chunks or mini-batches of this data. For example, if you
 want to deliver a batch of data for processing every second.
@@ -101,7 +101,7 @@ want to deliver a batch of data for processing every second.
 >>> import time
 >>>
 >>> keys = ['red', 'green', 'blue', 'orange']
->>> bc = BatchConflator()
+>>> bc = conflateddict.BatchConflator()
 >>>
 >>> last_flush = 0
 >>> while True:
@@ -136,7 +136,7 @@ lower or upper bound.
 >>> oc = conflateddict.OHLCCloflator()
 >>>
 >>> # Initial values. This would typically just be zero, but for this example
->>> # they are initialized to to avoid all events to fire in the first
+>>> # they are initialized to avoid all events from firing in the first
 >>> # iteration of the loop.
 >>> prev_ohlc = {key:tuple((random.randint(0, 100) for _ in range(4)))
 ...     for key in keys}
