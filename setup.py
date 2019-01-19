@@ -1,4 +1,8 @@
+# flake8: noqa
+
+
 import setuptools
+
 
 setuptools.setup(
     name="conflateddict",
@@ -42,7 +46,7 @@ setuptools.setup(
         >>>
     ```
         """,
-    packages=setuptools.find_packages(exclude=["tests"]),
+    packages=setuptools.find_packages(exclude=['tests']),
     install_requires=[],
     classifiers=[
         'Development Status :: 3 - Alpha',

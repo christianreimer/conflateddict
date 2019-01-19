@@ -1,5 +1,6 @@
 from . import conflateddict
 
+
 class BatchConflator(conflateddict.ConflatedDict):
     """
     ConflatedDict that batches values together.

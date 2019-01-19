@@ -1,7 +1,10 @@
-.PHONY: test clean install build
+.PHONY: test flake clean install build
 
 test: 
 	pytest --cov-report term-missing --cov=conflateddict --verbose tests/*
+
+flake:
+	flake8 --max-complexity=10 --count
 
 clean:
 	@echo "Removing cache directories"

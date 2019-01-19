@@ -35,7 +35,7 @@ class ModeConflator(conflateddict.ConflatedDict):
         cnt[data] += 1
         self._data[key] = cnt
         self._dirty.add(key)
-    
+
     def __getitem__(self, key):
         """
         Return the most commonly observed value for key. Raises KeyError if

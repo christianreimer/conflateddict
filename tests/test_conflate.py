@@ -2,6 +2,7 @@ import conflateddict
 import pytest
 import random
 
+
 def test_simple_conflator_value():
     c = conflateddict.ConflatedDict()
     c[1] = 1
@@ -283,6 +284,7 @@ def test_mode_conflator_with_reset():
     c.clear()
     c['key'] = 2
     assert c['key'] == (2, 1, 1)
+
 
 def test_mode_conflator_key_not_found():
     c = conflateddict.ModeConflator()
