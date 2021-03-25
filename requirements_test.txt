@@ -13,7 +13,7 @@ pyflakes==2.0.0
 pytest-cov==2.5.1
 pytest==3.6.3
 python-coveralls==2.9.1
-PyYAML==3.13
+PyYAML==5.4
 requests-toolbelt==0.8.0
 requests==2.21.0
 six==1.11.0
